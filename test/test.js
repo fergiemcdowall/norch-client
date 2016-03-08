@@ -66,3 +66,14 @@ tape('teardown - closing norch', function (t) {
   server.close()
   t.end()
 })
+
+
+tape('norch is shut down but it is still possible to hit the replicated norch', function (t) {
+  t.plan(3)
+  t.true(norchClient.replicated)
+  norchClient.queryNorch({query: {'*': ['sunoil']}}, function(err, results) {
+    t.equal(results.totalHits, 1)
+    t.equal(results.hits[0].document.title,
+            'ARGENTINE 1986/87 GRAIN/OILSEED REGISTRATIONS')
+  })
+})

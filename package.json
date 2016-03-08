@@ -1,0 +1,34 @@
+{
+  "name": "norch-client",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "JSONStream": "^1.0.7",
+    "level-ws": "0.0.0",
+    "leveldown": "^1.4.4",
+    "levelup": "^1.3.1",
+    "request": "^2.69.0",
+    "search-index": "0.7.10"
+  },
+  "devDependencies": {
+    "norch": "^0.6.15",
+    "reuters-21578-json": "0.0.6",
+    "should": "^8.2.2",
+    "supertest": "^1.2.0",
+    "tape": "^4.5.0"
+  },
+  "scripts": {
+    "test": "rm -rf test/sandbox && mkdir test/sandbox && tape test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fergiemcdowall/norch-client.git"
+  },
+  "author": "Fergus McDowall",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fergiemcdowall/norch-client/issues"
+  },
+  "homepage": "https://github.com/fergiemcdowall/norch-client#readme"
+}

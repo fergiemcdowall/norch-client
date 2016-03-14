@@ -22,13 +22,13 @@
     "reuters-21578-json": "0.0.6",
     "should": "^8.2.2",
     "supertest": "^1.2.0",
-    "tape": "^4.5.0"
+    "tape": "^4.5.1"
   },
   "scripts": {
     "clear-sandbox": "rm -rf test/sandbox && mkdir test/sandbox",
     "test": "npm run clear-sandbox && npm run test-node && npm run test-browserify",
     "test-browserify": "browserify test/browser/browserify-test-uncompiled.js > test/sandbox/bundle.js && tape test/browser/selenium-test.js",
-    "test-node": "tape test/test.js"
+    "test-node": "tape test/node/test.js"
   },
   "repository": {
     "type": "git",

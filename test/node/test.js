@@ -1,4 +1,4 @@
-const nc = require('../')
+const nc = require('../../')
 const norch = require('norch')
 const sandbox = 'test/sandbox'
 const supertest = require('supertest')

@@ -1,6 +1,5 @@
 const JSONStream = require('JSONStream');
-const fs = require('fs')
-const levelws = require('level-ws')
+const levelup = require('levelup')
 const request = require('request')
 const searchIndex = require('search-index')
 const zlib = require('zlib');
@@ -8,19 +7,17 @@ const zlib = require('zlib');
 var replicant   // the local datastore
 
 module.exports = function(endPoint, options) {
-
   var norchClient = {}
-
   var replicantName = 'theReplicant'  // do this with options eventually
 
-  //init
+  // init
   fullRefeed(endPoint, function(err) {
     norchClient.replicated = true
     console.log('refeed complete')
   })
-  //search-index
+  // end init
 
-
+  // API
   norchClient.replicated = false //set to true on replication
   norchClient.queryNorch = function (query, callback) {
     if (norchClient.replicated) {
@@ -29,8 +26,7 @@ module.exports = function(endPoint, options) {
       queryRemoteNorch(query, endPoint, options, callback)
     }
   }
-
-
+  // end API
   return norchClient
 }
 
@@ -48,14 +44,22 @@ var queryReplicatedNorch = function (query, options, callback) {
 }
 
 var fullRefeed = function(endPoint, callback) {
-  searchIndex({indexPath: 'test/sandbox/norch-client'}, function(err, si) {
-    var url = endPoint + '/snapshot'
-    replicant = si
-    request(url)
-      .pipe(zlib.createGunzip())
-      .pipe(JSONStream.parse())
-      .pipe(si.writeStream())
-      .on('close', callback)
-      .on('error', callback)
+  levelup('test/sandbox/norch-client', {
+    db: require('memdown'),
+    valueEncoding: 'json'
+  }, function(err, thisDb) {
+    searchIndex({
+      indexes: thisDb
+    }, function(err, si) {
+      var url = endPoint + '/snapshot'
+      replicant = si
+      request(url)
+        .pipe(zlib.createGunzip())
+        .pipe(JSONStream.parse())
+        .pipe(si.writeStream())
+        .on('close', callback)
+        .on('error', callback)
+    })
   })
+
 }

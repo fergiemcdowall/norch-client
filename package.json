@@ -8,10 +8,16 @@
     "level-ws": "0.0.0",
     "leveldown": "^1.4.4",
     "levelup": "^1.3.1",
+    "memdown": "^1.1.2",
     "request": "^2.69.0",
-    "search-index": "0.7.10"
+    "search-index": "0.7.11",
+    "selenium-webdriver": "^2.52.0"
   },
   "devDependencies": {
+    "brfs": "^1.4.3",
+    "browserify": "^13.0.0",
+    "chromedriver": "^2.21.2",
+    "level-js": "^2.2.3",
     "norch": "^0.6.16",
     "reuters-21578-json": "0.0.6",
     "should": "^8.2.2",
@@ -19,7 +25,10 @@
     "tape": "^4.5.0"
   },
   "scripts": {
-    "test": "rm -rf test/sandbox && mkdir test/sandbox && tape test/test.js"
+    "clear-sandbox": "rm -rf test/sandbox && mkdir test/sandbox",
+    "test": "npm run clear-sandbox && npm run test-node && npm run test-browserify",
+    "test-browserify": "browserify test/browser/browserify-test-uncompiled.js > test/sandbox/bundle.js && tape test/browser/selenium-test.js",
+    "test-node": "tape test/test.js"
   },
   "repository": {
     "type": "git",
